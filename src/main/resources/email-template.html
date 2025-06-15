@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bites Space - Your New Vendor Credentials</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .credentials {
+            background-color: #e6e6e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Welcome to Bites Space!</h2>
+        </div>
+        <div class="content">
+            <p>Dear <strong>${vendorName}</strong>,</p>
+            <p>Your account has been successfully created on the Bites Space platform. Below are your login credentials:</p>
+            <div class="credentials">
+                <p><strong>Username:</strong> ${username}</p>
+                <p><strong>Password:</strong> ${password}</p>
+            </div>
+            <p>Please log in using these credentials and consider changing your password after your first login for security purposes.</p>
+            <p>You can access your vendor portal here: [Link to Vendor Login Portal]</p>
+            <p>If you have any questions or need assistance, please do not hesitate to contact our support team.</p>
+            <p>Thank you,</p>
+            <p>The Bites Space Admin Team</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 Bites Space. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
