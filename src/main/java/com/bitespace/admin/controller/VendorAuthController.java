@@ -1,14 +1,7 @@
 package com.bitespace.admin.controller; // Or com.bitespace.vendor.controller
 
-import com.bitespace.admin.dto.AuthResponse;
-import com.bitespace.admin.dto.VendorChangePasswordRequest;
-import com.bitespace.admin.dto.VendorLoginRequest;
-import com.bitespace.admin.exception.ResourceNotFoundException;
-import com.bitespace.admin.dto.ForgotPasswordRequest; // NEW IMPORT
-import com.bitespace.admin.dto.ResetPasswordRequest; // NEW IMPORT
-import com.bitespace.admin.service.VendorAuthService;
-import jakarta.mail.MessagingException; // NEW IMPORT
-import jakarta.validation.Valid;
+import java.io.IOException; // NEW IMPORT
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +9,21 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException; // NEW IMPORT
+import com.bitespace.admin.dto.AuthResponse;
+import com.bitespace.admin.dto.ForgotPasswordRequest; // NEW IMPORT
+import com.bitespace.admin.dto.ResetPasswordRequest; // NEW IMPORT
+import com.bitespace.admin.dto.VendorChangePasswordRequest;
+import com.bitespace.admin.dto.VendorLoginRequest;
+import com.bitespace.admin.exception.ResourceNotFoundException;
+import com.bitespace.admin.service.VendorAuthService;
+
+import jakarta.mail.MessagingException; // NEW IMPORT
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/vendor/auth")

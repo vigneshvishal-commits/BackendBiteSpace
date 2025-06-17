@@ -1,18 +1,10 @@
 package com.bitespace.admin.service;
 
-import com.bitespace.admin.dto.AuthResponse;
-import com.bitespace.admin.dto.VendorChangePasswordRequest;
-import com.bitespace.admin.dto.VendorLoginRequest;
-import com.bitespace.admin.dto.ForgotPasswordRequest;
-import com.bitespace.admin.dto.ResetPasswordRequest;
-import com.bitespace.admin.exception.ResourceNotFoundException;
-import com.bitespace.admin.model.Vendor;
-import com.bitespace.admin.model.PasswordResetToken;
-import com.bitespace.admin.repository.VendorRepository;
-import com.bitespace.admin.repository.PasswordResetTokenRepository;
-import com.bitespace.admin.security.JwtUtil;
-import com.bitespace.common.model.UserType;
-import jakarta.mail.MessagingException;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,10 +16,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
+import com.bitespace.admin.dto.AuthResponse;
+import com.bitespace.admin.dto.VendorChangePasswordRequest;
+import com.bitespace.admin.dto.VendorLoginRequest;
+import com.bitespace.admin.exception.ResourceNotFoundException;
+import com.bitespace.admin.model.PasswordResetToken;
+import com.bitespace.admin.model.Vendor;
+import com.bitespace.admin.repository.PasswordResetTokenRepository;
+import com.bitespace.admin.repository.VendorRepository;
+import com.bitespace.admin.security.JwtUtil;
+import com.bitespace.common.model.UserType;
+
+import jakarta.mail.MessagingException;
 
 @Service
 public class VendorAuthService {
@@ -66,7 +66,9 @@ public class VendorAuthService {
             }
             Vendor vendor = optionalVendor.get();
 
-            return new AuthResponse(jwt, vendor.getVendorEmail(), vendor.getIsInitialPassword());
+            // --- CRITICAL CHANGE HERE ---
+            // Pass userDetails.getUsername() (which is the email in this case) as the username
+            return new AuthResponse(jwt, vendor.getVendorEmail(), vendor.getIsInitialPassword(), userDetails.getUsername());
 
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid email or password.");
@@ -91,7 +93,9 @@ public class VendorAuthService {
         vendorRepository.save(vendor);
 
         String newJwt = jwtUtil.generateToken(vendor.getVendorEmail());
-        return new AuthResponse(newJwt, vendor.getVendorEmail(), vendor.getIsInitialPassword());
+        // Ensure this AuthResponse constructor also matches the updated DTO if it's used elsewhere
+        // You might want to pass vendor.getVendorEmail() as the username here too
+        return new AuthResponse(newJwt, vendor.getVendorEmail(), vendor.getIsInitialPassword(), vendor.getVendorEmail());
     }
 
     private String generateNumericCode(int length) {

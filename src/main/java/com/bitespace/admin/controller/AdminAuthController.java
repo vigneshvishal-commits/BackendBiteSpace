@@ -1,13 +1,7 @@
 package com.bitespace.admin.controller;
 
-import com.bitespace.admin.dto.AdminLoginRequest;
-import com.bitespace.admin.dto.AuthResponse;
-import com.bitespace.admin.dto.AdminChangePasswordRequest;
-import com.bitespace.admin.dto.ForgotPasswordRequest; // NEW IMPORT
-import com.bitespace.admin.dto.ResetPasswordRequest; // NEW IMPORT
-import com.bitespace.admin.service.AdminAuthService;
-import jakarta.mail.MessagingException; // NEW IMPORT
-import jakarta.validation.Valid;
+import java.io.IOException; // NEW IMPORT
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus; // NEW IMPORT
 import org.springframework.http.ResponseEntity;
@@ -20,7 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException; // NEW IMPORT
+import com.bitespace.admin.dto.AdminChangePasswordRequest;
+import com.bitespace.admin.dto.AdminLoginRequest;
+import com.bitespace.admin.dto.AuthResponse;
+import com.bitespace.admin.dto.ForgotPasswordRequest; // NEW IMPORT
+import com.bitespace.admin.dto.ResetPasswordRequest; // NEW IMPORT
+import com.bitespace.admin.service.AdminAuthService;
+
+import jakarta.mail.MessagingException; // NEW IMPORT
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin/auth")

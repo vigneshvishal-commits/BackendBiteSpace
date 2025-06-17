@@ -1,14 +1,15 @@
 package com.bitespace.admin.security;
 
-import com.bitespace.admin.model.Vendor;
-import com.bitespace.admin.repository.VendorRepository;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import com.bitespace.admin.model.Vendor;
+import com.bitespace.admin.repository.VendorRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

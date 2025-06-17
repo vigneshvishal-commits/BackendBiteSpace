@@ -1,13 +1,14 @@
 package com.bitespace.admin.controller;
 
-import com.bitespace.admin.dto.AnalyticsResponse; // New import
-import com.bitespace.admin.dto.DashboardSummaryResponse;
-import com.bitespace.admin.service.AdminDashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bitespace.admin.dto.AnalyticsResponse; // New import
+import com.bitespace.admin.dto.DashboardSummaryResponse;
+import com.bitespace.admin.service.AdminDashboardService;
 
 @RestController
 @RequestMapping("/api/admin/dashboard")

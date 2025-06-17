@@ -1,9 +1,10 @@
 package com.bitespace.admin.dto;
 
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 public class VendorDTO {
     private Long id;
@@ -20,7 +21,7 @@ public class VendorDTO {
     private String contact;
     @NotBlank(message = "Outlet type is required")
     private String outletType;
-    @NotNull(message = "Active status is required")
+    
     private Boolean isActive;
     private LocalDate joinDate;
 

@@ -1,16 +1,16 @@
 // src/main/java/com/bitespace/admin/security/AdminUserDetailsService.java
 package com.bitespace.admin.security;
 
-import com.bitespace.admin.model.AdminUser;
-import com.bitespace.admin.repository.AdminUserRepository;
+import java.util.Collections; // To use Collections.singletonList for roles
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections; // To use Collections.singletonList for roles
+import com.bitespace.admin.model.AdminUser;
+import com.bitespace.admin.repository.AdminUserRepository;
 
 @Service
 public class AdminUserDetailsService implements UserDetailsService {

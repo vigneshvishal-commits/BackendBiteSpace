@@ -1,17 +1,9 @@
 package com.bitespace.admin.service;
 
-import com.bitespace.admin.dto.AdminLoginRequest;
-import com.bitespace.admin.dto.AuthResponse;
-import com.bitespace.admin.dto.AdminChangePasswordRequest;
-import com.bitespace.admin.dto.ForgotPasswordRequest;
-import com.bitespace.admin.dto.ResetPasswordRequest;
-import com.bitespace.admin.security.JwtUtil;
-import com.bitespace.admin.model.AdminUser;
-import com.bitespace.admin.model.PasswordResetToken;
-import com.bitespace.admin.repository.AdminUserRepository;
-import com.bitespace.admin.repository.PasswordResetTokenRepository;
-import com.bitespace.common.model.UserType;
-import jakarta.mail.MessagingException;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,9 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Random; // NEW IMPORT for generating numeric code
+import com.bitespace.admin.dto.AdminChangePasswordRequest;
+import com.bitespace.admin.dto.AdminLoginRequest;
+import com.bitespace.admin.dto.AuthResponse;
+import com.bitespace.admin.model.AdminUser;
+import com.bitespace.admin.model.PasswordResetToken;
+import com.bitespace.admin.repository.AdminUserRepository;
+import com.bitespace.admin.repository.PasswordResetTokenRepository;
+import com.bitespace.admin.security.JwtUtil;
+import com.bitespace.common.model.UserType;
+
+import jakarta.mail.MessagingException;
 
 @Service
 public class AdminAuthService {
@@ -62,7 +62,9 @@ public class AdminAuthService {
             AdminUser adminUser = adminUserRepository.findByUsername(userDetails.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("Admin user not found after authentication!"));
 
-            return new AuthResponse(jwt, userDetails.getUsername(), adminUser.isInitialPassword());
+            // --- CRITICAL CHANGE HERE ---
+            // Pass userDetails.getUsername() (which is the email in this case) as the username
+            return new AuthResponse(jwt, userDetails.getUsername(), adminUser.isInitialPassword(), userDetails.getUsername());
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid admin username or password.");
         } catch (Exception e) {

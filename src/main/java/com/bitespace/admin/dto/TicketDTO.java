@@ -1,7 +1,8 @@
 package com.bitespace.admin.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.NotBlank;
 
 public class TicketDTO {
     private String id;
@@ -11,7 +12,7 @@ public class TicketDTO {
     private String description;
     @NotBlank(message = "Customer name is required")
     private String customerName;
-    
+
     @NotBlank(message = "Customer contact is required")
     private String customerContact;
     private String vendorName;

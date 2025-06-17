@@ -1,11 +1,12 @@
 package com.bitespace.admin.repository;
 
-import com.bitespace.admin.model.Vendor;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.bitespace.admin.model.Vendor;
 
 @Repository
 public interface VendorRepository extends JpaRepository<Vendor, Long> {
@@ -15,5 +16,5 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
 
     // New: Find a vendor by email
     Optional<Vendor> findByVendorEmail(String vendorEmail);
-    
+
 }

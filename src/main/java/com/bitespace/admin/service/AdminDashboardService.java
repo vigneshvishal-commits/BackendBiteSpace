@@ -1,20 +1,21 @@
 package com.bitespace.admin.service;
 
-import com.bitespace.admin.dto.AnalyticsResponse;
-import com.bitespace.admin.dto.DashboardSummaryResponse;
-import com.bitespace.admin.dto.MonthlySalesOrdersData;
-import com.bitespace.admin.dto.VendorTypeDistributionData;
-import com.bitespace.admin.dto.VendorLocationDistributionData;
-import com.bitespace.admin.model.Vendor;
-import com.bitespace.admin.repository.TicketRepository; // Still autowired but not currently used for dashboard
-import com.bitespace.admin.repository.VendorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bitespace.admin.dto.AnalyticsResponse;
+import com.bitespace.admin.dto.DashboardSummaryResponse;
+import com.bitespace.admin.dto.MonthlySalesOrdersData;
+import com.bitespace.admin.dto.VendorLocationDistributionData;
+import com.bitespace.admin.dto.VendorTypeDistributionData;
+import com.bitespace.admin.model.Vendor;
+import com.bitespace.admin.repository.TicketRepository; // Still autowired but not currently used for dashboard
+import com.bitespace.admin.repository.VendorRepository;
 
 @Service
 public class AdminDashboardService {

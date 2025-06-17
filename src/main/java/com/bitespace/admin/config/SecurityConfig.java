@@ -1,14 +1,11 @@
 package com.bitespace.admin.config;
 
-import com.bitespace.admin.security.AdminUserDetailsService; // Import for Admin users
-import com.bitespace.admin.security.AuthEntryPoint;
-import com.bitespace.admin.security.CustomUserDetailsService; // For Vendor users
-import com.bitespace.admin.security.JwtAuthFilter;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,7 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.Arrays;
+import com.bitespace.admin.security.AdminUserDetailsService; // Import for Admin users
+import com.bitespace.admin.security.AuthEntryPoint;
+import com.bitespace.admin.security.CustomUserDetailsService; // For Vendor users
+import com.bitespace.admin.security.JwtAuthFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -47,24 +47,23 @@ public class SecurityConfig {
             .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Allow public access to authentication endpoints for both admin and vendor
-                // ADDED FORGOT/RESET PASSWORD ENDPOINTS HERE:
+                // These endpoints are publicly accessible (no authentication required)
                 .requestMatchers(
                     "/api/admin/auth/login",
-                    "/api/admin/auth/change-password", // Change password requires JWT, but needs to be accessible *if initial password*
-                    "/api/admin/auth/forgot-password", // NEW: Publicly accessible
-                    "/api/admin/auth/reset-password",  // NEW: Publicly accessible
+                    "/api/admin/auth/forgot-password",
+                    "/api/admin/auth/reset-password",
 
                     "/api/vendor/auth/login",
-                    "/api/vendor/auth/change-password", // Change password requires JWT, but needs to be accessible *if initial password*
-                    "/api/vendor/auth/forgot-password", // NEW: Publicly accessible
-                    "/api/vendor/auth/reset-password"   // NEW: Publicly accessible
+                    "/api/vendor/auth/forgot-password",
+                    "/api/vendor/auth/reset-password"
                 ).permitAll()
                 // All other /api/admin/** endpoints require authentication (Admin JWT)
+                // This includes /api/admin/auth/change-password
                 .requestMatchers("/api/admin/**").authenticated()
                 // All other /api/vendor/** endpoints require authentication (Vendor JWT)
+                // This includes /api/vendor/auth/change-password
                 .requestMatchers("/api/vendor/**").authenticated()
-                .anyRequest().authenticated() // All other requests still require authentication
+                .anyRequest().authenticated() // Fallback for any other requests not explicitly matched
             );
 
         // Add JWT filter before UsernamePasswordAuthenticationFilter
@@ -82,7 +81,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider vendorAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(customUserDetailsService);
+        provider.setUserDetailsService(customUserDetailsService); // Assuming customUserDetailsService handles Vendors
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
@@ -91,7 +90,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider adminAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(adminUserDetailsService);
+        provider.setUserDetailsService(adminUserDetailsService); // Assuming adminUserDetailsService handles Admins
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }

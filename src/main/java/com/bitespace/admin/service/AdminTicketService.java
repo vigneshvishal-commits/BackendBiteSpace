@@ -1,18 +1,19 @@
 package com.bitespace.admin.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.bitespace.admin.dto.TicketCountsResponse;
 import com.bitespace.admin.dto.TicketDTO;
 import com.bitespace.admin.exception.ResourceNotFoundException;
 import com.bitespace.admin.model.Ticket;
 import com.bitespace.admin.repository.TicketRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdminTicketService {
@@ -41,7 +42,14 @@ public class AdminTicketService {
                     break;
             }
         }
-        List<Ticket> tickets = ticketRepository.searchAndFilterTickets(status, vendorName, startDate, endDate);
+        
+        // --- CRITICAL CHANGE HERE ---
+        // Adjust vendorName to be null if it's "All Vendors"
+        String finalVendorName = (vendorName != null && vendorName.equalsIgnoreCase("All Vendors")) ? null : vendorName;
+
+        // Pass null for vendorName to the repository if frontend sends "All Vendors"
+        List<Ticket> tickets = ticketRepository.searchAndFilterTickets(status, finalVendorName, startDate, endDate);
+        
         return tickets.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());

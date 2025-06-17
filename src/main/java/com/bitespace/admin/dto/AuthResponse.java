@@ -4,14 +4,16 @@ public class AuthResponse {
     private String jwt;
     private String email;
     private Boolean isInitialPassword; // To indicate if password change is required
+    private String username; // Added this field
 
     public AuthResponse() {
     }
 
-    public AuthResponse(String jwt, String email, Boolean isInitialPassword) {
+    public AuthResponse(String jwt, String email, Boolean isInitialPassword, String username) { // Updated constructor
         this.jwt = jwt;
         this.email = email;
         this.isInitialPassword = isInitialPassword;
+        this.username = username; // Set the username
     }
 
     // Getters
@@ -27,6 +29,10 @@ public class AuthResponse {
         return isInitialPassword;
     }
 
+    public String getUsername() { // Added getter for username
+        return username;
+    }
+
     // Setters
     public void setJwt(String jwt) {
         this.jwt = jwt;
@@ -38,5 +44,9 @@ public class AuthResponse {
 
     public void setIsInitialPassword(Boolean initialPassword) {
         isInitialPassword = initialPassword;
+    }
+
+    public void setUsername(String username) { // Added setter for username
+        this.username = username;
     }
 }

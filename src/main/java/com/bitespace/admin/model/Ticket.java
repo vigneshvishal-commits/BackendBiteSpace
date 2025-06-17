@@ -1,7 +1,10 @@
 package com.bitespace.admin.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tickets")
@@ -11,10 +14,10 @@ public class Ticket {
     private String subject;
     private String description;
     private String customerName;
-    
+
     private String customerContact;
     private String vendorName;
- 
+
     private String status;   // open|in-progress|resolved
     private LocalDateTime timestamp;
     private String category; // Quality|Delivery|Order|Hygiene|Billing
@@ -76,7 +79,7 @@ public class Ticket {
 
 
 
- 
+
     public String getStatus() {
         return status;
     }
